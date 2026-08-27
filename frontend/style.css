@@ -700,3 +700,31 @@ a {
   color: var(--primary);
   font-weight: 700;
 }
+
+/* =========================
+   LOGIN OPTIONS
+========================= */
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 18px 0 22px;
+  font-size: 12px;
+}
+
+.login-options a {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+}
+
+.remember input {
+  accent-color: var(--primary);
+}
