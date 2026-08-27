@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #172033;
+  line-height: 1.6;
+}
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 20px;
+  color: #5b6475;
+}
