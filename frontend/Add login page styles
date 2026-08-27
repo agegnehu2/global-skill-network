@@ -1,0 +1,9 @@
+global-skill-network/
+│
+├── frontend/
+│   ├── index.html
+│   ├── register.html
+│   ├── login.html
+│   └── style.css
+│
+└── README.md
