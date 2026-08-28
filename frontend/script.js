@@ -1,17 +1,19 @@
 // =========================
 // GLOBAL SKILL NETWORK
-// Frontend JavaScript
+// Frontend Authentication
 // =========================
 
-const registerForm = document.getElementById("registerForm");
-const loginForm = document.getElementById("loginForm");
+const API_URL = "http://localhost:5000";
+
 
 // =========================
 // REGISTER
 // =========================
 
+const registerForm = document.getElementById("registerForm");
+
 if (registerForm) {
-  registerForm.addEventListener("submit", function (event) {
+  registerForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const name = document.getElementById("name").value.trim();
@@ -38,29 +40,69 @@ if (registerForm) {
       return;
     }
 
-    message.textContent =
-      "Account form is valid. Backend registration comes next.";
+    message.textContent = "Creating your account...";
 
-    console.log("Registration:", {
-      name,
-      email
-    });
+    try {
+      const response = await fetch(
+        `${API_URL}/api/users/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            fullName: name,
+            email,
+            password
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        message.textContent =
+          data.message || "Registration failed.";
+        return;
+      }
+
+      message.textContent =
+        "Account created successfully!";
+
+      registerForm.reset();
+
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1000);
+
+    } catch (error) {
+      console.error(error);
+
+      message.textContent =
+        "Unable to connect to the server.";
+    }
   });
 }
+
 
 // =========================
 // LOGIN
 // =========================
 
+const loginForm = document.getElementById("loginForm");
+
 if (loginForm) {
-  loginForm.addEventListener("submit", function (event) {
+  loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const email = document.getElementById("loginEmail").value.trim();
+    const email =
+      document.getElementById("loginEmail").value.trim();
+
     const password =
       document.getElementById("loginPassword").value;
 
-    const message = document.getElementById("loginMessage");
+    const message =
+      document.getElementById("loginMessage");
 
     if (!email || !password) {
       message.textContent =
@@ -68,11 +110,54 @@ if (loginForm) {
       return;
     }
 
-    message.textContent =
-      "Login form is valid. Backend authentication comes next.";
+    message.textContent = "Logging in...";
 
-    console.log("Login:", {
-      email
-    });
+    try {
+      const response = await fetch(
+        `${API_URL}/api/users/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email,
+            password
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        message.textContent =
+          data.message || "Login failed.";
+        return;
+      }
+
+      // Store token temporarily.
+      sessionStorage.setItem(
+        "authToken",
+        data.token
+      );
+
+      sessionStorage.setItem(
+        "user",
+        JSON.stringify(data.user)
+      );
+
+      message.textContent =
+        "Login successful!";
+
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 700);
+
+    } catch (error) {
+      console.error(error);
+
+      message.textContent =
+        "Unable to connect to the server.";
+    }
   });
-}
+  }
