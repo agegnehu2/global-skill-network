@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
 const pool = require("./db");
 
 const app = express();
@@ -21,7 +22,10 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// Create user
+// =========================
+// REGISTER
+// =========================
+
 app.post("/api/users/register", async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
@@ -29,7 +33,7 @@ app.post("/api/users/register", async (req, res) => {
     if (!fullName || !email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Full name, email and password are required."
+        message: "All fields are required."
       });
     }
 
@@ -52,12 +56,14 @@ app.post("/api/users/register", async (req, res) => {
       });
     }
 
-    // Password hashing will be added in the next security step.
+    const passwordHash = await bcrypt.hash(password, 12);
+
     const result = await pool.query(
-      `INSERT INTO users (full_name, email, password_hash)
+      `INSERT INTO users
+       (full_name, email, password_hash)
        VALUES ($1, $2, $3)
        RETURNING id, full_name, email, created_at`,
-      [fullName, email, password]
+      [fullName, email, passwordHash]
     );
 
     res.status(201).json({
