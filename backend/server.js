@@ -168,3 +168,79 @@ app.post("/api/users/login", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+// =========================
+// JWT AUTH MIDDLEWARE
+// =========================
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({
+      success: false,
+      message: "Authentication required."
+    });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    );
+
+    req.user = decoded;
+    next();
+
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      message: "Invalid or expired token."
+    });
+  }
+}
+
+
+// =========================
+// CURRENT USER PROFILE
+// =========================
+
+app.get("/api/users/me", authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT id, full_name, email, created_at
+       FROM users
+       WHERE id = $1`,
+      [req.user.userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found."
+      });
+    }
+
+    const user = result.rows[0];
+
+    res.json({
+      success: true,
+      user: {
+        id: user.id,
+        fullName: user.full_name,
+        email: user.email,
+        createdAt: user.created_at
+      }
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server error."
+    });
+  }
+});
