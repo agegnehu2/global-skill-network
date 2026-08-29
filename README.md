@@ -97,3 +97,24 @@ global-skill-network/
 ├── .gitignore
 │
 └── README.md
+
+🎯 Vision
+Our vision is to build a global platform where talent is not limited by geography.
+Skills should create opportunities, and opportunities should connect people.
+🤝 Contributing
+Contributions, ideas, and feedback are welcome.
+If you want to contribute:
+Fork the repository
+Create a new branch
+Make your changes
+Commit your changes
+Open a Pull Request
+📄 License
+This project is currently under development.
+License information will be added before the first public production release.
+👨‍💻 Author
+Agegnehu Shibiru
+Global Skill Network
+⭐ Project Status
+🚧 Active Development
+This project is currently being developed step by step from frontend to a complete full-stack international platform.
