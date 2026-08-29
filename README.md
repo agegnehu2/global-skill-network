@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="./Agenehu.png" alt="Global Skill Network Logo" width="700">
-</p>
+![Agegnehu Shibiru](./Agegnehu.png)
 # 🌍 Global Skill Network
 
 > A global platform connecting skilled people, developers, creators, and teams to build projects, discover opportunities, collaborate, and grow together.
