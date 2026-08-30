@@ -119,3 +119,6 @@ Global Skill Network
 ⭐ Project Status
 🚧 Active Development
 This project is currently being developed step by step from frontend to a complete full-stack international platform.
+
+
+### https://agegnehu2.github.io/global-skill-network/
