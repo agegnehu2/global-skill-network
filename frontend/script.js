@@ -3,7 +3,7 @@
 // Frontend Authentication
 // =========================
 
-const API_URL = "http://localhost:5000";
+const API_URL = "https://global-skill-network-production.up.railway.app";
 
 
 // =========================
