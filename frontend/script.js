@@ -61,13 +61,9 @@ if (registerForm) {
       const data = await response.json();
 
       if (!response.ok) {
-        message.textContent =
-          data.message || "Registration failed.";
-        return;
+    message.textContent = data.message || "Registration failed.";
+    return;
       }
-
-      message.textContent =
-        "Account created successfully!";
 
       registerForm.reset();
 
